@@ -1,12 +1,13 @@
 // server/models/Movie.js
 const mongoose = require('mongoose');
 
-const MovieSchema = new mongoose.Schema({
-    title: String,
-    synopsis: String,
-    rating: Number,
-    comments: [String],
-    availableSeats: [Number], // Array of seat numbers
+const movieSchema = new mongoose.Schema({
+  tmdbId: { type: Number, unique: true }, // Unique identifier from TMDb
+  title: String,
+  synopsis: String,
+  releaseDate: String,
+  posterPath: String,
+  availableSeats: Number,
 });
 
-module.exports = mongoose.model('Movie', MovieSchema);
+module.exports = mongoose.model('Movie', movieSchema);
