@@ -1,12 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Vue from 'vue';
-import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import MovieDetail from '../views/MovieDetail.vue';
 import Booking from '../views/Booking.vue';
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -27,9 +23,9 @@ const routes = [
   { path: '/booking/:id', name: 'Booking', component: Booking },
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  routes,
-});
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes
+})
 
 export default router
