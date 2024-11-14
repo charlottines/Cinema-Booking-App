@@ -9,8 +9,8 @@
         <input type="password" v-model="password" required />
         <button type="submit">Login</button>
         <p>
-          Don't have an account?
-          <router-link to="/register">Register here</router-link>
+          Don't have an account ?
+          <router-link to="/register"> Register here</router-link>
         </p>
       </form>
     </div>

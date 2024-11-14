@@ -31,7 +31,7 @@
     data() {
       return {
         foodItems: [
-          { id: 1, name: 'Popcorn', description: 'Large popcorn', price: 5.00, image: 'https://static.vecteezy.com/ti/vecteur-libre/p2/5489002-pop-corn-boisson-et-tickets-vectoriel.jpg' },
+          { id: 1, name: 'Popcorn', description: 'Large popcorn', price: 5.00, image: 'http://www.100daysofrealfood.com/wp-content/uploads/2011/06/popcorn1.jpg' },
           { id: 2, name: 'Churros', description: '12 Churros Pack', price: 6.00, image: 'https://selfpackaging.fr/104222-large_default/boite-de-churros-a-emporter.jpg' },
           { id: 3, name: 'Candy', description: 'Assorted candy', price: 1.50, image: 'https://th.bing.com/th/id/OIP.kmenrLKE8PjPkPFhugHoxgHaE8?rs=1&pid=ImgDetMain' },
         ],

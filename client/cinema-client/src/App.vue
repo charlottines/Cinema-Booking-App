@@ -6,6 +6,7 @@
         <router-link to="/">CinemaApp</router-link>
       </div>
       <nav>
+        <router-link to="/order-food">MIAM</router-link>
         <router-link to="/">Home</router-link>
         <router-link to="/login">Login</router-link>
         <router-link to="/register">Register</router-link>
