@@ -1,17 +1,24 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+// src/router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import MovieDetail from '../views/MovieDetail.vue';
-import Booking from '../views/Booking.vue';
+import MovieDetails from '../components/MovieDetails.vue';
+import FoodOrder from '../components/FoodOrder.vue';
+import SeatSelection from '../components/SeatSelection.vue';
+import Login from '../components/Login.vue';
+import Register from '../components/Register.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/movie/:id', name: 'MovieDetail', component: MovieDetail },
-  { path: '/booking/:id', name: 'Booking', component: Booking },
-]
+  { path: '/movie/:id', name: 'MovieDetails', component: MovieDetails, props: true },
+  { path: '/order-food', name: 'FoodOrder', component: FoodOrder },
+  { path: '/seat-selection', name: 'SeatSelection', component: SeatSelection },
+  { path: '/login', name: 'Login', component: Login },
+  { path: '/register', name: 'Register', component: Register },
+];
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
 
-export default router
+export default router;

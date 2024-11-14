@@ -1,20 +1,14 @@
-<!-- client/src/components/MovieCard.vue -->
 <template>
-    <div @click="goToDetail">
-      <h2>{{ movie.title }}</h2>
-      <p>{{ movie.synopsis }}</p>
+    <div class="movie-card">
+      <img :src="`https://image.tmdb.org/t/p/w500/${movie.posterPath}`" :alt="movie.title" />
+      <h3>{{ movie.title }}</h3>
+      <router-link :to="`/movie/${movie._id}`">View Details</router-link>
     </div>
   </template>
   
   <script>
   export default {
-    name: 'MovieCard',
     props: ['movie'],
-    methods: {
-      goToDetail() {
-        this.$router.push({ name: 'MovieDetail', params: { id: this.movie._id } });
-      },
-    },
   };
   </script>
   

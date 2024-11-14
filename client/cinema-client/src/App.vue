@@ -1,35 +1,61 @@
-<!-- client/src/App.vue -->
+<!-- App.vue -->
 <template>
   <div id="app">
-    <router-view />
+    <header>
+      <div class="logo">
+        <router-link to="/">CinemaApp</router-link>
+      </div>
+      <nav>
+        <router-link to="/">Home</router-link>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/register">Register</router-link>
+      </nav>
+    </header>
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "App",
-  };
+export default {
+  name: 'App',
+};
 </script>
 
-<style> /* Here are global styles */
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-nav {
-  padding: 30px;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #24292e;
+  padding: 1rem;
+  color: white;
+}
+
+header .logo a {
+  color: #f3f4f6;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-decoration: none;
 }
 
 nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  margin: 0 1rem;
+  color: #f3f4f6;
+  text-decoration: none;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 2rem;
 }
 </style>

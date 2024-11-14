@@ -5,7 +5,6 @@ const Movie = require('./models/Movie');
 const RequestLog = require('./models/RequestLog');
 
 // Connect to MongoDB
-console.log('fetchMongoDB URI:', process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI);
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
@@ -24,7 +23,7 @@ async function fetchAndSaveMovies() {
     }
 
     if (log.lastRequestDate >= today) {
-      console.log('Movies already fetched today. Skipping API request.');
+      console.log('Database already up to date. Launching server...');
       return;
     }
 
@@ -62,8 +61,6 @@ async function fetchAndSaveMovies() {
 
   } catch (error) {
     console.error('Error fetching movies:', error);
-  } finally {
-    mongoose.connection.close();
   }
 }
 
