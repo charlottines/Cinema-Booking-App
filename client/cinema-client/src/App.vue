@@ -8,8 +8,7 @@
       <nav>
         <router-link to="/order-food">MIAM</router-link>
         <router-link to="/">Home</router-link>
-        <router-link to="/login">Login</router-link>
-        <router-link to="/register">Register</router-link>
+        <router-link to="/login"><img src="@/assets/account-icon.png" alt="Login"></router-link>
       </nav>
     </header>
     <main>
@@ -58,10 +57,21 @@ header .logo a {
   text-decoration: none;
 }
 
+header img {
+  height: 2rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
 nav a {
   margin: 0 1rem;
   color: #f3f4f6;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 nav a:hover {
