@@ -5,10 +5,10 @@ A full-stack cinema booking web application that lets users browse movies, read 
 
 ## Features
 
-- **User Authentication**: Users can register and log in to manage reservations.
-- **Movie Search and Details**: Users can search for movies, view synopses, and read reviews.
-- **Seat Selection**: Dynamic seat selection for movie reservations.
-- **Food Ordering**: Add food items like popcorn, soda, and candy to the order.
+- **User Authentication**: Users can register and log in to manage reservations. (ToDo)
+- **Movie Search and Details**: Users can search for movies, view synopses, and read reviews. (ToDo)
+- **Seat Selection**: Dynamic seat selection for movie reservations. (missing backend)
+- **Food Ordering**: Add food items like popcorn, soda, and candy to the order. (same)
 - **Admin-Friendly**: Automatically pulls movie data daily when the server starts.
 
 ## Project Structure
@@ -165,12 +165,3 @@ The backend is powered by **Express** with the following setup:
 | `/api/user/login`  | POST   | User login                    |
 | `/api/user/register` | POST | User registration             |
 
-## Future Improvements
-
-- **Admin Dashboard**: For managing movies, users, and showtimes.
-- **Enhanced Seat Selection**: Real-time seat availability updates.
-- **Payment Integration**: Secure payments for ticket reservations.
-- **and a lot of things**
-
-
-This README provides clear instructions, component breakdowns, and includes details about asset management, so your project is organized and easy to set up!

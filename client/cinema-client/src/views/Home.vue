@@ -42,19 +42,20 @@ export default {
 
 <style scoped>
 .home {
+  margin: 0 20%;
   text-align: center;
 }
 
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .movie-card {
   cursor: pointer;
-  background-color: #ddd;
+  background-color: #bbb;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -83,7 +84,7 @@ export default {
 
 .movie-info p {
   font-size: 0.9rem;
-  color: #555;
+  color: #444;
 }
 
 .rating {

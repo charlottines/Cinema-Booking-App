@@ -1,7 +1,7 @@
 <!-- SeatSelection.vue -->
 <template>
   <div class="seat-selection">
-    <h2>Select Your Seats</h2>
+    <h1>Select Your Seats</h1>
     <div class="screen">Screen</div>
     <div class="seats-grid">
       <div
@@ -23,7 +23,7 @@
 export default {
   data() {
     return {
-      seats: Array(200).fill(null).map((_, i) => ({
+      seats: Array(300).fill(null).map((_, i) => ({
         id: i + 1,
         status: 'available',
       })),
@@ -64,28 +64,30 @@ export default {
 <style scoped>
 .seat-selection {
   text-align: center;
+  margin: 5rem 10%;
 }
 
 .screen {
-  margin: 1rem auto;
+  margin: 5rem auto;
   padding: 0.5rem;
+  color: #333;
   background-color: #ccc;
-  width: 200px;
+  width: 70%;
   text-align: center;
   font-weight: bold;
 }
 
 .seats-grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(25, 1fr);
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin: 5rem 0;
   justify-content: center;
 }
 
 .seat {
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   background-size: cover;
   text-align: center;
   cursor: pointer;

@@ -3,7 +3,7 @@
   <div id="app">
     <header>
       <div class="logo">
-        <router-link to="/">CinemaApp</router-link>
+        <router-link to="/">CineMaBaguette</router-link>
       </div>
       <nav>
         <router-link to="/order-food">MIAM</router-link>
@@ -24,17 +24,29 @@ export default {
 };
 </script>
 
-<style scoped>
-#app {
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
-  color: #333;
+  background-color: #333;
+  color: #ccc;
+  font-size: large;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #24292e;
+  background: #222;
   padding: 1rem;
   color: white;
 }
