@@ -21,7 +21,7 @@ A full-stack cinema booking web application that lets users browse movies, read 
 ├── README.md                 # Project documentation
 
 # Frontend
-├── client/client-server                    # Renamed for clarity
+├── client/cinema-client                    # Renamed for clarity
 │   ├── cinema-client
 │   │   ├── .gitignore
 │   │   ├── babel.config.js
@@ -94,7 +94,7 @@ Ensure you have the following installed:
 
 1. **Clone the Repository**:
    ```bash
-   https://github.com/Adri-dou/Cinema-Booking-App
+   git clone https://github.com/Adri-dou/Cinema-Booking-App
    cd Cinema-Booking-App
    ```
 
@@ -115,9 +115,9 @@ Ensure you have the following installed:
      npm install
      ```
 
-   - **Frontend**:
+   - **Client**:
      ```bash
-     cd client/client-server
+     cd client/cinema-client
      npm install
      ```
 
@@ -132,7 +132,7 @@ Ensure you have the following installed:
    Open a new terminal window, navigate to `frontend`, and start the Vue app.
 
    ```bash
-   cd client/client-server
+   cd client/cinema-client
    npm run serve
    ```
 
