@@ -44,7 +44,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #222;
+  background: #111;
   padding: 1rem;
   color: white;
 }
@@ -75,9 +75,5 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
-}
-
-main {
-  padding: 2rem;
 }
 </style>

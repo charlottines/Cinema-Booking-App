@@ -1,4 +1,5 @@
 <template>
+  <MovieCarousel />
   <div class="home">
     <h1>Now Showing</h1>
     
@@ -25,6 +26,7 @@
 
 <script>
 import axios from 'axios';
+import MovieCarousel from '@/components/MovieCarousel.vue';
 
 export default {
   data() {
@@ -51,6 +53,9 @@ export default {
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
+  },
+  components: {
+    MovieCarousel,
   },
   methods: {
     viewMovie(id) {
@@ -127,7 +132,7 @@ export default {
 }
 
 .rating {
-  color: #ffb400;
+  color: #f60;
   font-weight: bold;
 }
 </style>
