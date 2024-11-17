@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const axios = require('axios');
 const mongoose = require('mongoose');
@@ -9,6 +10,8 @@ mongoose.connect(process.env.MONGODB_URI);
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_API_URL = 'https://api.themoviedb.org/3/movie/now_playing';
+const TMDB_API_GENRES = 'https://api.themoviedb.org/3/genre/movie/list';
+
 
 async function fetchAndSaveMovies() {
   try {
@@ -30,23 +33,32 @@ async function fetchAndSaveMovies() {
     const response = await axios.get(TMDB_API_URL, {
       params: {
         api_key: TMDB_API_KEY,
-        language: 'en-US',
-        region: 'US',
       },
     });
+    const genresResponse = await axios.get(TMDB_API_GENRES, {
+      params: {
+        api_key: TMDB_API_KEY,
+      },});
 
     const movies = response.data.results;
 
     for (const movie of movies) {
       const existingMovie = await Movie.findOne({ tmdbId: movie.id });
+
       if (!existingMovie) {
         const newMovie = new Movie({
           tmdbId: movie.id,
           title: movie.title,
+          genres: movie.genre_ids.map(
+            id => genresResponse.data.genres.find(
+              genre => genre.id === id).name),
+          tagline: movie.tagline,
           synopsis: movie.overview,
           releaseDate: movie.release_date,
           posterPath: movie.poster_path,
-          availableSeats: 50,
+          backdropPath: movie.backdrop_path,
+          runtime: movie.runtime,  // doesn't work yet
+          rating: movie.vote_average,
         });
         await newMovie.save();
         console.log(`Saved new movie: ${movie.title}`);

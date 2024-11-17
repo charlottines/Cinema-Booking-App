@@ -1,22 +1,27 @@
-<!-- Login.vue -->
 <template>
-    <div class="auth-form">
-      <h1>Login</h1>
-      <form @submit.prevent="login">
+  <div class="auth-form">
+    <h2>Login</h2>
+    <form @submit.prevent="login">
+      <div class="form-group">
         <label>Email</label>
-        <input type="email" v-model="email" required />
+        <input type="email" v-model="email" required placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
         <label>Password</label>
-        <input type="password" v-model="password" required />
-        <button type="submit">Login</button>
-        <p>
-          Don't have an account ?
-          <router-link to="/register"> Register here</router-link>
-        </p>
-      </form>
-    </div>
+        <input type="password" v-model="password" required placeholder="Enter your password" />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <p>
+      Don't have an account?
+      <router-link to="/register">Register here</router-link>
+    </p>
+  </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -25,9 +30,20 @@ export default {
     };
   },
   methods: {
-    login() {
-      // Simulate a login call
-      alert(`Logged in with ${this.email}`);
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:5000/api/user/login', {
+          email: this.email,
+          password: this.password,
+        });
+        // Handle login success (store token, redirect, etc.)
+        console.log("Login successful:", response.data);
+        // Example: redirect to home or user profile
+        this.$router.push('/profile');
+      } catch (error) {
+        console.error("Login failed:", error);
+        alert("Login failed. Please check your credentials.");
+      }
     },
   },
 };
@@ -37,48 +53,60 @@ export default {
 .auth-form {
   max-width: 400px;
   margin: auto;
+  background: #777;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.auth-form h1 {
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
   margin-bottom: 1rem;
-}
-
-.auth-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-.auth-form label {
   text-align: left;
-  margin-top: 1rem;
 }
 
-.auth-form input {
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
   padding: 0.5rem;
   font-size: 1rem;
-  margin-top: 0.5rem;
-  border-radius: 4px;
   border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .auth-form button {
   background-color: #ff4500;
   color: white;
-  padding: 0.75rem;
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .auth-form button:hover {
   background-color: #e63e00;
 }
 
-p a {
-color: #fd2;
-text-decoration: none;
+.auth-form p {
+  margin-top: 1rem;
+}
+
+.auth-form a {
+  color: #ff4500;
+  text-decoration: none;
+}
+
+.auth-form a:hover {
+  text-decoration: underline;
 }
 </style>
-  

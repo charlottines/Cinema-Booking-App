@@ -1,29 +1,28 @@
-<!-- FoodOrder.vue -->
 <template>
-    <div class="food-order">
-      <h1>Order Your Food</h1>
-      <div class="food-options">
-        <div v-for="item in foodItems" :key="item.id" class="food-item">
-          <img :src="item.image" :alt="item.name" />
-          <div class="food-details">
-            <h3>{{ item.name }}</h3>
-            <p>{{ item.description }}</p>
-            <p class="price">$ {{ item.price }}</p>
-            <button @click="addToOrder(item)">Add to Order</button>
-          </div>
+  <div class="food-order">
+    <h2>Order Your Food</h2>
+    <div class="food-options">
+      <div v-for="item in foodItems" :key="item.id" class="food-item">
+        <img :src="item.image" :alt="item.name" />
+        <div class="food-details">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
+          <p class="price">$ {{ item.price }}</p>
+          <button @click="addToOrder(item)">Add to Order</button>
         </div>
       </div>
-      <div class="order-summary">
-        <h2>Your Order Summary</h2>
-        <ul>
-          <li v-for="(item, index) in order" :key="index">
-            {{ item.name }} - ${{ item.price }}
-          </li>
-        </ul>
-        <p>Total: ${{ totalPrice }}</p>
-        <button class="checkout-button" @click="checkout">Checkout</button>
-      </div>
     </div>
+    <div class="order-summary">
+      <h3>Your Order Summary</h3>
+      <ul>
+        <li v-for="(item, index) in order" :key="index">
+          {{ item.name }} - ${{ item.price }}
+        </li>
+      </ul>
+      <p>Total: ${{ totalPrice }}</p>
+      <button class="checkout-button" @click="checkout" :disabled="order.length === 0">Checkout</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -50,6 +49,7 @@ export default {
     checkout() {
       alert(`Thank you for your order! Total: $${this.totalPrice}`);
       this.order = [];
+      this.$router.push('/'); // Redirect to home or confirmation page
     },
   },
 };
@@ -60,46 +60,64 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem;
 }
 
 .food-options {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
+  justify-content: center;
   margin-top: 1rem;
 }
 
 .food-item {
   text-align: center;
-  background: #bbb;
+  background: #ccc;
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
+  width: 200px;
+  transition: transform 0.3s ease;
+}
+
+.food-item:hover {
+  transform: scale(1.05);
 }
 
 .food-item img {
-  width: 10vw;
+  width: 100px;
+  height: auto;
   border-radius: 8px;
 }
 
-.food-details {
-  color: #444;
-}
 .food-details h3 {
   font-size: 1.2rem;
   color: #333;
 }
 
+.food-details p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .price {
-  color: #f55;
+  color: #ff4500;
   font-weight: bold;
 }
 
 .order-summary {
   margin-top: 2rem;
   text-align: center;
+}
+
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.order-summary li {
+  margin: 0.5rem 0;
 }
 
 .checkout-button {
@@ -110,10 +128,15 @@ export default {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
-.checkout-button:hover {
+.checkout-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.checkout-button:hover:not(:disabled) {
   background-color: #e63e00;
 }
 </style>
-  

@@ -1,4 +1,3 @@
-// server.js
 
 require('dotenv').config(); // Loads environment variables
 // Import dependencies

@@ -1,28 +1,12 @@
-// server/routes/movies.js
 
 const express = require('express');
 const router = express.Router();
-const Movie = require('../models/Movie'); // Import the Movie model
+const movieController = require('../controllers/movieController');
 
 // GET /api/movies - Fetch all movies
-router.get('/', async (req, res) => {
-  try {
-    const movies = await Movie.find();
-    res.json(movies);
-  } catch (error) {
-    console.error("Error fetching movies:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+router.get('/', movieController.getAllMovies);
 
-// Get movie details by ID
-router.get('/:id', async (req, res) => {
-    try {
-        const movie = await Movie.findById(req.params.id);
-        res.json(movie);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
+// GET /api/movies/:id - Fetch a single movie by ID
+router.get('/:id', movieController.getMovieById);
 
 module.exports = router;

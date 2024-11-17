@@ -7,7 +7,6 @@
       </div>
       <nav>
         <router-link to="/order-food">MIAM</router-link>
-        <router-link to="/">Home</router-link>
         <router-link to="/login"><img src="@/assets/account-icon.png" alt="Login"></router-link>
       </nav>
     </header>

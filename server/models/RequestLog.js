@@ -1,4 +1,4 @@
-// models/RequestLog.js
+
 const mongoose = require('mongoose');
 
 const requestLogSchema = new mongoose.Schema({

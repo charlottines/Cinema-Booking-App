@@ -1,10 +1,18 @@
-<!-- Home.vue -->
 <template>
   <div class="home">
     <h1>Now Showing</h1>
+    
+    <div class="genre-filter">
+      <label for="genre-select">Filter by Genre:</label>
+      <select id="genre-select" v-model="selectedGenre" @change="filterMovies">
+        <option value="">All</option>
+        <option v-for="genre in allGenres" :key="genre" :value="genre">{{ genre }}</option>
+      </select>
+    </div>
+    
     <div class="movie-grid">
-      <div v-for="movie in movies" :key="movie._id" class="movie-card" @click="viewMovie(movie._id)">
-        <img :src="`https://image.tmdb.org/t/p/w300/${movie.posterPath}`" :alt="movie.title" />
+      <div v-for="movie in filteredMovies" :key="movie._id" class="movie-card" @click="viewMovie(movie._id)">
+        <img :src="`https://image.tmdb.org/t/p/w200/${movie.posterPath}`" :alt="movie.title" />
         <div class="movie-info">
           <h3>{{ movie.title }}</h3>
           <p>{{ movie.synopsis.slice(0, 100) }}...</p>
@@ -22,12 +30,24 @@ export default {
   data() {
     return {
       movies: [],
+      filteredMovies: [],
+      allGenres: [],
+      selectedGenre: '',
     };
   },
   async created() {
     try {
       const response = await axios.get('http://localhost:5000/api/movies');
       this.movies = response.data;
+      this.filteredMovies = this.movies;
+      
+      // Extract unique genres from movies
+      const genreSet = new Set();
+      this.movies.forEach(movie => {
+        movie.genres.forEach(genre => genreSet.add(genre));
+      });
+      this.allGenres = Array.from(genreSet);
+      
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -36,26 +56,45 @@ export default {
     viewMovie(id) {
       this.$router.push(`/movie/${id}`);
     },
+    filterMovies() {
+      if (this.selectedGenre === '') {
+        this.filteredMovies = this.movies;
+      } else {
+        this.filteredMovies = this.movies.filter(movie => movie.genres.includes(this.selectedGenre));
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 .home {
-  margin: 0 20%;
   text-align: center;
+}
+
+.genre-filter {
+  margin: 1rem 0;
+}
+
+.genre-filter label {
+  margin-right: 0.5rem;
+}
+
+.genre-filter select {
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 2rem;
-  margin-top: 2rem;
+  margin: 1rem 20%;
 }
 
 .movie-card {
   cursor: pointer;
-  background-color: #bbb;
+  background-color: #ddd;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -84,7 +123,7 @@ export default {
 
 .movie-info p {
   font-size: 0.9rem;
-  color: #444;
+  color: #555;
 }
 
 .rating {
