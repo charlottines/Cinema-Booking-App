@@ -70,11 +70,11 @@
         this.currentSlide = index;
       },
       startAutoSlide() {
-        this.slideInterval = setInterval(this.nextSlide, 7000); // Change slide every 5 seconds
+        // Change slide every 7 seconds
+        this.slideInterval = setInterval(this.nextSlide, 7000);
       },
       goToMovie(movieId) {
-        // Navigate to the movie details page
-        this.$router.push(`/movie/${movieId}`);
+        this.$router.push(`/movies/${movieId}`);
       },
     },
   };
@@ -159,7 +159,7 @@
   top: 50%;
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  color: #f90;
   border: none;
   padding: 15px;
   font-size: 2rem;
@@ -174,6 +174,16 @@
 
 .carousel-button.next {
   right: 10px;
+}
+
+.carousel:hover .carousel-button {
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
+}
+
+.carousel-button {
+  transition: opacity 0.3s ease-out;
+  opacity: 0;
 }
 
 .dots {

@@ -1,14 +1,67 @@
 <template>
-    <div class="movie-card">
-      <img :src="`https://image.tmdb.org/t/p/w500/${movie.posterPath}`" :alt="movie.title" />
+  <div class="movie-card" @click="viewMovie(movie._id)">
+    <img :src="`https://image.tmdb.org/t/p/w300/${movie.posterPath}`" :alt="movie.title" />
+    <div class="movie-info">
       <h3>{{ movie.title }}</h3>
-      <router-link :to="`/movie/${movie._id}`">View Details</router-link>
+      <p>{{ movie.synopsis.slice(0, 100) }}...</p>
+      <span class="rating">⭐ {{ movie.rating.toFixed(1) }}</span>
     </div>
-  </template>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    movie: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    viewMovie(id) {
+      this.$router.push(`/movies/${id}`);
+    },
+  }
+};
+</script>
   
-  <script>
-  export default {
-    props: ['movie'],
-  };
-  </script>
-  
+<style scoped>
+.movie-card {
+  cursor: pointer;
+  background-color: #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+}
+
+.movie-info {
+  padding: 1rem;
+}
+
+.movie-info h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.movie-info p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.rating {
+  color: #f60;
+  font-weight: bold;
+}
+</style>

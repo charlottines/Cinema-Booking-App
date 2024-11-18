@@ -1,72 +1,87 @@
 <template>
-  <MovieCarousel />
   <div class="home">
-    <h1>Now Showing</h1>
-    
-    <div class="genre-filter">
-      <label for="genre-select">Filter by Genre:</label>
-      <select id="genre-select" v-model="selectedGenre" @change="filterMovies">
-        <option value="">All</option>
-        <option v-for="genre in allGenres" :key="genre" :value="genre">{{ genre }}</option>
-      </select>
-    </div>
-    
-    <div class="movie-grid">
-      <div v-for="movie in filteredMovies" :key="movie._id" class="movie-card" @click="viewMovie(movie._id)">
-        <img :src="`https://image.tmdb.org/t/p/w200/${movie.posterPath}`" :alt="movie.title" />
-        <div class="movie-info">
-          <h3>{{ movie.title }}</h3>
-          <p>{{ movie.synopsis.slice(0, 100) }}...</p>
-          <span class="rating">⭐ {{ movie.rating }}</span>
+    <MovieCarousel />
+
+    <div class="genres-section">
+      <div class="genre-row" v-for="(genre, index) in genres" :key="index">
+        <h2 class="genre-title">{{ genre.name }}</h2>
+        <div class="genre-movies-container">
+          <button class="scroll-button prev" @click="scrollLeft(index)">&#10094;</button>
+
+          <div class="movies-list" :ref="'moviesList' + index">
+            
+            <img v-for="movie in genre.movies" 
+              :src="`https://image.tmdb.org/t/p/w300/${movie.posterPath}`" :alt="movie.title" 
+              :class="['movie-card']" :key="movie._id"
+              @click="viewMovie(movie._id)">
+          </div>
+
+          <button class="scroll-button next" @click="scrollRight(index)">&#10095;</button>
         </div>
       </div>
+    </div>
+
+    <div class="all-movies-button-container">
+      <router-link to="/movies" class="all-movies-button">View All Movies</router-link>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import MovieCarousel from '@/components/MovieCarousel.vue';
+import axios from "axios";
+import MovieCarousel from "@/components/MovieCarousel.vue";
+import MovieCard from "@/components/MovieCard.vue";
 
 export default {
+  name: "Home",
+  components: {
+    MovieCarousel,
+    MovieCard,
+  },
   data() {
     return {
-      movies: [],
-      filteredMovies: [],
-      allGenres: [],
-      selectedGenre: '',
+      genres: [
+        { id: 878, name: "Science Fiction", movies: [] },
+        { id: 10749, name: "Romance", movies: [] },
+        { id: 27, name: "Horror", movies: [] },
+      ],
     };
   },
   async created() {
     try {
-      const response = await axios.get('http://localhost:5000/api/movies');
-      this.movies = response.data;
-      this.filteredMovies = this.movies;
-      
-      // Extract unique genres from movies
-      const genreSet = new Set();
-      this.movies.forEach(movie => {
-        movie.genres.forEach(genre => genreSet.add(genre));
+      const response = await axios.get("http://localhost:5000/api/movies");
+      const movies = response.data;
+
+      this.genres.forEach((genre) => {
+        genre.movies = movies.filter((movie) => movie.genres.includes(genre.name));
       });
-      this.allGenres = Array.from(genreSet);
-      
+
+      //console.log(this.genres);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
   },
-  components: {
-    MovieCarousel,
-  },
   methods: {
-    viewMovie(id) {
-      this.$router.push(`/movie/${id}`);
-    },
-    filterMovies() {
-      if (this.selectedGenre === '') {
-        this.filteredMovies = this.movies;
-      } else {
-        this.filteredMovies = this.movies.filter(movie => movie.genres.includes(this.selectedGenre));
+    scrollLeft(index) {
+      const list = this.$refs[`moviesList${index}`][0]; 
+      if (list) {
+        list.scrollBy({
+          left: -300, // Adjust the scroll distance
+          behavior: "smooth", // Enable smooth scrolling
+        });
       }
+    },
+    scrollRight(index) {
+      const list = this.$refs[`moviesList${index}`][0];
+      if (list) {
+        list.scrollBy({
+          left: 300, // Adjust the scroll distance
+          behavior: "smooth", // Enable smooth scrolling
+        });
+      }
+    },
+    viewMovie(id) {
+      this.$router.push(`/movies/${id}`);
     },
   },
 };
@@ -74,65 +89,114 @@ export default {
 
 <style scoped>
 .home {
-  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  color: white;
 }
 
-.genre-filter {
-  margin: 1rem 0;
+.genres-section {
+  margin: 5rem 20%;
 }
 
-.genre-filter label {
-  margin-right: 0.5rem;
+.genre-row {
+  margin-bottom: 30px;
 }
 
-.genre-filter select {
-  padding: 0.5rem;
-  font-size: 1rem;
+.genre-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
-.movie-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 1rem 20%;
+.genre-movies-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.movies-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 50px;
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+  scroll-behavior: smooth;
+  transition: transform 2s ease-in-out; /* Smooth scrolling animation */
+}
+
+.movies-list::-webkit-scrollbar {
+  display: none; /* Hides scrollbar in Chrome/Safari */
 }
 
 .movie-card {
+  width: 300px;
+  flex-shrink: 0;
+  text-align: center;
   cursor: pointer;
-  background-color: #ddd;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .movie-card:hover {
   transform: scale(1.05);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .movie-card img {
   width: 100%;
-  height: auto;
+  border-radius: 10px;
 }
 
-.movie-info {
-  padding: 1rem;
+.scroll-button {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #f90;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  position: absolute;
+  z-index: 2;
+  font-size: 2rem;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.movie-info h3 {
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+.scroll-button.prev {
+  left: 10px;
 }
 
-.movie-info p {
-  font-size: 0.9rem;
-  color: #555;
+.scroll-button.next {
+  right: 10px;
+}
+.genre-movies-container:hover .scroll-button {
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
 }
 
-.rating {
-  color: #f60;
-  font-weight: bold;
+.scroll-button {
+  transition: opacity 0.3s ease-out;
+  opacity: 0;
+}
+
+.all-movies-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.all-movies-button {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.all-movies-button:hover {
+  background-color: #d35400;
 }
 </style>

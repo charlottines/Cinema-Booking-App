@@ -35,7 +35,7 @@ html, body, #app {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #333;
+  background-color: #222;
   color: #ccc;
   font-size: large;
 }
