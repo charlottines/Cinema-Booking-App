@@ -28,17 +28,27 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-html, body, #app {
+
+body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #222;
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(110deg, #050505 40%, #333 100%);
+  background-size: cover;
+  background-attachment: scroll;
   color: #ccc;
   font-size: large;
 }
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 
 header {
   display: flex;

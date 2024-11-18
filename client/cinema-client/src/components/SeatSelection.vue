@@ -1,4 +1,3 @@
-<!-- SeatSelection.vue -->
 <template>
   <div class="seat-selection">
     <h1>Select Your Seats</h1>

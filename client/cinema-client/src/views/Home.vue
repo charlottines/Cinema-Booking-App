@@ -20,10 +20,26 @@
         </div>
       </div>
     </div>
-
     <div class="all-movies-button-container">
-      <router-link to="/movies" class="all-movies-button">View All Movies</router-link>
+      <router-link to="/movies" class="all-movies-button">See More</router-link>
     </div>
+
+    <div class="date-navigation">
+      <button class="nav-button" @click="prevDate" :disabled="isAtStart">&#10094;</button>
+      <div class="dates-container">
+        <span
+          v-for="(date, index) in visibleDates"
+          :key="index"
+          :class="{ active: selectedDate === date.dateString }"
+          class="date"
+          @click="selectDate(date.dateString)"
+        >
+          {{ date.label }}
+        </span>
+      </div>
+      <button class="nav-button" @click="nextDate" :disabled="isAtEnd">&#10095;</button>
+    </div>
+
   </div>
 </template>
 
@@ -39,12 +55,29 @@ export default {
     MovieCard,
   },
   data() {
+    const today = new Date();
+    const dateOptions = { weekday: "long", day: "numeric", month: "long" };
+
+    // Generate the next 14 days including today
+    const allDates = Array.from({ length: 14 }, (_, i) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      return {
+        dateString: date.toISOString().split("T")[0],
+        label: i === 0 ? "Today" : date.toLocaleDateString("en-US", dateOptions),
+      };
+    });
+
     return {
       genres: [
         { id: 878, name: "Science Fiction", movies: [] },
         { id: 10749, name: "Romance", movies: [] },
         { id: 27, name: "Horror", movies: [] },
       ],
+
+      allDates, // Full list of dates
+      currentStartIndex: 0, // Index of the first visible date
+      selectedDate: allDates[0].dateString, // Currently selected date
     };
   },
   async created() {
@@ -60,6 +93,18 @@ export default {
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
+  },
+  computed: {
+    visibleDates() {
+      // Return only 3 days starting from the currentStartIndex
+      return this.allDates.slice(this.currentStartIndex, this.currentStartIndex + 3);
+    },
+    isAtStart() {
+      return this.currentStartIndex === 0;
+    },
+    isAtEnd() {
+      return this.currentStartIndex + 3 >= this.allDates.length;
+    },
   },
   methods: {
     scrollLeft(index) {
@@ -79,6 +124,21 @@ export default {
           behavior: "smooth", // Enable smooth scrolling
         });
       }
+    },
+    prevDate() {
+      if (!this.isAtStart) {
+        this.currentStartIndex--;
+      }
+    },
+    nextDate() {
+      if (!this.isAtEnd) {
+        this.currentStartIndex++;
+      }
+    },
+    selectDate(dateString) {
+      this.selectedDate = dateString;
+      console.log(`Selected date: ${dateString}`);
+      // Optionally, filter movies based on the selected date
     },
     viewMovie(id) {
       this.$router.push(`/movies/${id}`);
@@ -117,7 +177,7 @@ export default {
 .movies-list {
   display: flex;
   overflow-x: auto;
-  gap: 15px;
+  gap: 2rem;
   padding: 50px;
   scrollbar-width: none; /* Hides scrollbar in Firefox */
   scroll-behavior: smooth;
@@ -133,6 +193,7 @@ export default {
   flex-shrink: 0;
   text-align: center;
   cursor: pointer;
+  border-radius: 5%;
   transition: transform 0.2s ease;
 }
 
@@ -186,7 +247,7 @@ export default {
 }
 
 .all-movies-button {
-  background-color: #f39c12;
+  background-color: #f70;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -197,6 +258,57 @@ export default {
 }
 
 .all-movies-button:hover {
-  background-color: #d35400;
+  background-color: #f50;
+}
+
+.date-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.nav-button {
+  background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dates-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.date {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.date:hover {
+  color: white;
+}
+
+.date.active {
+  font-weight: bold;
+  color: white;
+  text-decoration: underline;
 }
 </style>

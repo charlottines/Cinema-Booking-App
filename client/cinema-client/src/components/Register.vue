@@ -61,8 +61,8 @@ export default {
 <style scoped>
 .auth-form {
   max-width: 400px;
-  margin: auto;
-  background: #777;
+  margin: 10% auto;
+  background: #555;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);

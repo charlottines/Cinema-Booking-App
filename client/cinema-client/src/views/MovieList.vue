@@ -1,7 +1,7 @@
 <template>
   <div class="all-movies">
+
     <h1>Now Showing</h1>
-    
     <div class="genre-filter">
       <label for="genre-select">Filter by Genre:</label>
       <select id="genre-select" v-model="selectedGenre" @change="filterMovies">
@@ -11,8 +11,9 @@
     </div>
     
     <div class="movie-grid">
-      <MovieCard v-for="movie in filteredMovies" :key="movie._id" :movie="movie"/>
+      <MovieCard class="movie-card" v-for="movie in filteredMovies" :key="movie._id" :movie="movie"/>
     </div>
+
   </div>
 </template>
 
@@ -64,6 +65,7 @@ export default {
 <style scoped>
 .all-movies {
   text-align: center;
+
 }
 
 .genre-filter {
@@ -81,9 +83,13 @@ export default {
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-  margin: 1rem 20%;
+  margin: 1rem 10%;
+}
+
+.movie-card {
+  width: 300px;
 }
 </style>
   
