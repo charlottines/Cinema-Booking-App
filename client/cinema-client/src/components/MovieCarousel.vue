@@ -32,7 +32,7 @@
     </div>
   </template>
   
-  <script>
+<script>
   import axios from "axios";
   
   export default {
@@ -140,7 +140,7 @@
 }
 
 .movie-title {
-  font-size: 3rem;
+  font-size: 4rem;
   margin-bottom: 10px;
 }
 

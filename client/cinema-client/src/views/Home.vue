@@ -166,6 +166,7 @@ export default {
   font-size: 1.8rem;
   margin-bottom: 10px;
   margin-left: 20px;
+  color: #f90;
 }
 
 .genre-movies-container {
