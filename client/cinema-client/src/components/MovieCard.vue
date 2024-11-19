@@ -28,7 +28,7 @@ export default {
 <style scoped>
 .movie-card {
   cursor: pointer;
-  background-color: #ddd;
+  background-color: #333;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -51,13 +51,11 @@ export default {
 
 .movie-info h3 {
   font-size: 1.1rem;
-  color: #333;
   margin-bottom: 0.5rem;
 }
 
 .movie-info p {
   font-size: 0.9rem;
-  color: #555;
 }
 
 .rating {

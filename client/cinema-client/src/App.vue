@@ -37,6 +37,7 @@ body {
   padding: 0;
   font-family: "Arial", sans-serif;
   background: linear-gradient(110deg, #050505 40%, #333 100%);
+  /* background: linear-gradient(110deg, #001 40%, #00a 100%);*/
   background-size: cover;
   background-attachment: scroll;
   color: #ccc;
@@ -56,11 +57,11 @@ header {
   align-items: center;
   background: #111;
   padding: 1rem;
-  color: white;
+  color: #ddd;
 }
 
 header .logo a {
-  color: #f3f4f6;
+  color: #ddd;
   font-weight: bold;
   font-size: 1.5rem;
   text-decoration: none;

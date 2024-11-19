@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import MovieList from '../views/MovieList.vue';
-import MovieDetails from '../components/MovieDetails.vue';
+import MovieDetails from '../views/MovieDetails.vue';
 import FoodOrder from '../components/FoodOrder.vue';
 import SeatSelection from '../components/SeatSelection.vue';
 import Login from '../components/Login.vue';

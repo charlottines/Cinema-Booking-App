@@ -37,8 +37,8 @@ export default {
         { id: 4, name: 'Nachos', description: 'Crispy nachos with cheese', price: 4.50, image: require('@/assets/food/nachos.webp') },
         { id: 5, name: 'Soft Drink', description: 'Refreshing soda (500ml)', price: 3.00, image: require('@/assets/food/softdrink.webp') },
         { id: 6, name: 'Ice Cream', description: 'Choose your favorite flavor', price: 4.00, image: require('@/assets/food/icecream.webp') },
-        { id: 7, name: 'Hot Dog', description: 'Classic hot dog with condiments', price: 5.50, image: require('@/assets/food/popcorn.webp') },
-        { id: 8, name: 'Pretzel', description: 'Soft pretzel with salt and dip', price: 3.50, image: require('@/assets/food/popcorn.webp') },
+        { id: 7, name: 'Hot Dog', description: 'Classic hot dog with condiments', price: 5.50, image: require('@/assets/food/hotdog.webp') },
+        { id: 8, name: 'Pretzel', description: 'Soft pretzel with salt and dip', price: 3.50, image: require('@/assets/food/pretzel.webp') },
       ],
       order: [],
     };

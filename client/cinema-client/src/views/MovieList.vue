@@ -1,5 +1,5 @@
 <template>
-  <div class="all-movies">
+  <div class="movie-list">
 
     <h1>Now Showing</h1>
     <div class="genre-filter">
@@ -39,7 +39,7 @@ export default {
       // Extract unique genres from movies
       const genreSet = new Set();
       this.movies.forEach(movie => {
-        movie.genres.forEach(genre => genreSet.add(genre));
+        movie.genres.forEach(genre => genreSet.add(genre.name));
       });
       this.allGenres = Array.from(genreSet);
       
@@ -55,7 +55,7 @@ export default {
       if (this.selectedGenre === '') {
         this.filteredMovies = this.movies;
       } else {
-        this.filteredMovies = this.movies.filter(movie => movie.genres.includes(this.selectedGenre));
+        this.filteredMovies = this.movies.filter((movie) => movie.genres.some((g) => g.name === this.selectedGenre));
       }
     },
   },
@@ -63,7 +63,8 @@ export default {
 </script>
 
 <style scoped>
-.all-movies {
+.movie-list {
+  margin: 5%;
   text-align: center;
 
 }
@@ -77,8 +78,13 @@ export default {
 }
 
 .genre-filter select {
+  color: white;
+  background-color: #333;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
   padding: 0.5rem;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .movie-grid {

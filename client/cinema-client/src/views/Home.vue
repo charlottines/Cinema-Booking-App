@@ -9,11 +9,9 @@
           <button class="scroll-button prev" @click="scrollLeft(index)">&#10094;</button>
 
           <div class="movies-list" :ref="'moviesList' + index">
-            
-            <img v-for="movie in genre.movies" 
-              :src="`https://image.tmdb.org/t/p/w300/${movie.posterPath}`" :alt="movie.title" 
-              :class="['movie-card']" :key="movie._id"
-              @click="viewMovie(movie._id)">
+            <div v-for="movie in genre.movies" class="movie-card" @click="viewMovie(movie._id)">
+              <img :src="`https://image.tmdb.org/t/p/w300${movie.posterPath}`" :alt="movie.title">
+            </div>
           </div>
 
           <button class="scroll-button next" @click="scrollRight(index)">&#10095;</button>
@@ -46,13 +44,11 @@
 <script>
 import axios from "axios";
 import MovieCarousel from "@/components/MovieCarousel.vue";
-import MovieCard from "@/components/MovieCard.vue";
 
 export default {
   name: "Home",
   components: {
     MovieCarousel,
-    MovieCard,
   },
   data() {
     const today = new Date();
@@ -70,9 +66,10 @@ export default {
 
     return {
       genres: [
-        { id: 878, name: "Science Fiction", movies: [] },
-        { id: 10749, name: "Romance", movies: [] },
-        { id: 27, name: "Horror", movies: [] },
+        { id: 28, name: "Action 💥", movies: [] },
+        { id: 878, name: "Science Fiction ⚗️", movies: [] },
+        { id: 10749, name: "Romance 💖", movies: [] },
+        { id: 27, name: "Horror 👻", movies: [] },
       ],
 
       allDates, // Full list of dates
@@ -86,7 +83,7 @@ export default {
       const movies = response.data;
 
       this.genres.forEach((genre) => {
-        genre.movies = movies.filter((movie) => movie.genres.includes(genre.name));
+        genre.movies = movies.filter((movie) => movie.genres.some((g) => g.id === genre.id));
       });
 
       //console.log(this.genres);
@@ -107,6 +104,9 @@ export default {
     },
   },
   methods: {
+    viewMovie(id) {
+      this.$router.push(`/movies/${id}`);
+    },
     scrollLeft(index) {
       const list = this.$refs[`moviesList${index}`][0]; 
       if (list) {
@@ -139,9 +139,6 @@ export default {
       this.selectedDate = dateString;
       console.log(`Selected date: ${dateString}`);
       // Optionally, filter movies based on the selected date
-    },
-    viewMovie(id) {
-      this.$router.push(`/movies/${id}`);
     },
   },
 };

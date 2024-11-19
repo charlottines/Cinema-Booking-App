@@ -1,6 +1,6 @@
 <template>
     <div class="carousel">
-      <!-- Carousel Slides -->
+      
       <div
         class="carousel-slide"
         :class="{ active: index === currentSlide }"
@@ -14,7 +14,7 @@
   
         <div class="overlay">
           <h2 class="movie-title">{{ movie.title }}</h2>
-          <button class="book-now" @click="goToMovieDetails(movie.id)">Book Now</button>
+          <button class="book-now" @click="viewMovie(movie._id)">Book Now</button>
         </div>
       </div>
 
@@ -73,8 +73,8 @@
         // Change slide every 7 seconds
         this.slideInterval = setInterval(this.nextSlide, 7000);
       },
-      goToMovie(movieId) {
-        this.$router.push(`/movies/${movieId}`);
+      viewMovie(id) {
+        this.$router.push(`/movies/${id}`);
       },
     },
   };

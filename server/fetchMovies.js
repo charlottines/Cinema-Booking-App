@@ -29,6 +29,7 @@ async function fetchAndSaveMovies() {
       return;
     }
 
+    // searching for recent movies
     const response = await axios.get(`${TMDB_API_URL}now_playing`, {
       params: {
         api_key: TMDB_API_KEY,
@@ -61,7 +62,7 @@ async function fetchAndSaveMovies() {
         const newMovie = new Movie({
           tmdbId: movieDetails.id,
           title: movieDetails.title,
-          genres: movieDetails.genres.map(genre => genre.name),
+          genres: movieDetails.genres,
           tagline: movieDetails.tagline,
           synopsis: movieDetails.overview,
           releaseDate: movieDetails.release_date,
