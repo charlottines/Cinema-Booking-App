@@ -34,9 +34,9 @@ export default {
         { id: 1, name: 'Popcorn', description: 'Large buttery popcorn', price: 5.00, image: require('@/assets/food/popcorn.webp') },
         { id: 2, name: 'Churros', description: '12 Churros Pack with chocolate dip', price: 6.00, image: require('@/assets/food/churros.webp')},
         { id: 3, name: 'Candy', description: 'Assorted candy', price: 1.50, image: require('@/assets/food/candies.webp') },
-        { id: 4, name: 'Nachos', description: 'Crispy nachos with cheese', price: 4.50, image: require('@/assets/food/popcorn.webp') },
-        { id: 5, name: 'Soft Drink', description: 'Refreshing soda (500ml)', price: 3.00, image: require('@/assets/food/popcorn.webp') },
-        { id: 6, name: 'Ice Cream', description: '2 scoops of your favorite flavor', price: 4.00, image: require('@/assets/food/popcorn.webp') },
+        { id: 4, name: 'Nachos', description: 'Crispy nachos with cheese', price: 4.50, image: require('@/assets/food/nachos.webp') },
+        { id: 5, name: 'Soft Drink', description: 'Refreshing soda (500ml)', price: 3.00, image: require('@/assets/food/softdrink.webp') },
+        { id: 6, name: 'Ice Cream', description: 'Choose your favorite flavor', price: 4.00, image: require('@/assets/food/icecream.webp') },
         { id: 7, name: 'Hot Dog', description: 'Classic hot dog with condiments', price: 5.50, image: require('@/assets/food/popcorn.webp') },
         { id: 8, name: 'Pretzel', description: 'Soft pretzel with salt and dip', price: 3.50, image: require('@/assets/food/popcorn.webp') },
       ],
@@ -100,7 +100,7 @@ export default {
 
 .food-item {
   text-align: center;
-  background: #333; /* Darker gray */
+  background: #333;
   border: 1px solid #444;
   border-radius: 8px;
   padding: 1rem;
