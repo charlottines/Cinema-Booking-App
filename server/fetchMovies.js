@@ -9,8 +9,7 @@ const RequestLog = require('./models/RequestLog');
 mongoose.connect(process.env.MONGODB_URI);
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
-const TMDB_API_URL = 'https://api.themoviedb.org/3/movie/now_playing';
-const TMDB_API_GENRES = 'https://api.themoviedb.org/3/genre/movie/list';
+const TMDB_API_URL = 'https://api.themoviedb.org/3/movie/';
 
 
 async function fetchAndSaveMovies() {
@@ -30,15 +29,11 @@ async function fetchAndSaveMovies() {
       return;
     }
 
-    const response = await axios.get(TMDB_API_URL, {
+    const response = await axios.get(`${TMDB_API_URL}now_playing`, {
       params: {
         api_key: TMDB_API_KEY,
       },
     });
-    const genresResponse = await axios.get(TMDB_API_GENRES, {
-      params: {
-        api_key: TMDB_API_KEY,
-      },});
 
     const movies = response.data.results;
 
@@ -46,19 +41,35 @@ async function fetchAndSaveMovies() {
       const existingMovie = await Movie.findOne({ tmdbId: movie.id });
 
       if (!existingMovie) {
+
+        // get more details about the movie
+        const movieDetailsResponse = await axios.get(`${TMDB_API_URL}${movie.id}`, {
+          params: {
+            api_key: TMDB_API_KEY,
+          },
+        });
+        // get the trailer youtube key
+        const movieVideosResponse = await axios.get(`${TMDB_API_URL}${movie.id}/videos`, {
+          params: {
+            api_key: TMDB_API_KEY,
+          },
+        });
+
+        const movieDetails = movieDetailsResponse.data;
+        const movieVideos = movieVideosResponse.data.results;
+
         const newMovie = new Movie({
-          tmdbId: movie.id,
-          title: movie.title,
-          genres: movie.genre_ids.map(
-            id => genresResponse.data.genres.find(
-              genre => genre.id === id).name),
-          tagline: movie.tagline,
-          synopsis: movie.overview,
-          releaseDate: movie.release_date,
-          posterPath: movie.poster_path,
-          backdropPath: movie.backdrop_path,
-          runtime: movie.runtime,  // doesn't work yet
-          rating: movie.vote_average,
+          tmdbId: movieDetails.id,
+          title: movieDetails.title,
+          genres: movieDetails.genres.map(genre => genre.name),
+          tagline: movieDetails.tagline,
+          synopsis: movieDetails.overview,
+          releaseDate: movieDetails.release_date,
+          posterPath: movieDetails.poster_path,
+          backdropPath: movieDetails.backdrop_path,
+          trailerKey: movieVideos.find(video => video.type === 'Trailer' && video.official === true)?.key,
+          runtime: movieDetails.runtime,
+          rating: movieDetails.vote_average,
         });
         await newMovie.save();
         console.log(`Saved new movie: ${movie.title}`);
@@ -76,5 +87,4 @@ async function fetchAndSaveMovies() {
   }
 }
 
-// Export the function so it can be used in other files
 module.exports = fetchAndSaveMovies;
