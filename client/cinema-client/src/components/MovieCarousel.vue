@@ -36,6 +36,7 @@
   import axios from "axios";
   
   export default {
+    
     data() {
       return {
         movies: [],
@@ -53,7 +54,7 @@
     methods: {
       async fetchMovies() {
         try {
-          const response = await axios.get("http://localhost:5000/api/movies"); // Use your backend API
+          const response = await axios.get("http://localhost:3000/api/movies"); // Use your backend API
           this.movies = response.data.slice(0, 5); // Assumes API returns an array of movies
         } catch (error) {
           console.error("Error fetching movies:", error);

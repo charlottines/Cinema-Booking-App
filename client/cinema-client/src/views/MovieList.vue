@@ -11,7 +11,7 @@
     </div>
     
     <div class="movie-grid">
-      <MovieCard class="movie-card" v-for="movie in filteredMovies" :key="movie._id" :movie="movie"/>
+      <MovieCard class="movie-card" v-for="movie in filteredMovies" :movie="movie"/>
     </div>
 
   </div>
@@ -32,7 +32,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('http://localhost:5000/api/movies');
+      const response = await axios.get('http://localhost:3000/api/movies');
       this.movies = response.data;
       this.filteredMovies = this.movies;
       

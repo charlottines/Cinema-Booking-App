@@ -41,7 +41,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.post('http://localhost:5000/api/user/register', {
+        const response = await axios.post('http://localhost:3000/api/user/register', {
           email: this.email,
           password: this.password,
         });

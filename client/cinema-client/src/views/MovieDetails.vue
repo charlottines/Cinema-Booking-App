@@ -52,7 +52,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get(`http://localhost:5000/api/movies/${this.id}`);
+      const response = await axios.get(`http://localhost:3000/api/movies/${this.id}`);
       this.movie = response.data;
     } catch (error) {
       console.error("Error fetching movie details:", error);

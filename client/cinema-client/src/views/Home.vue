@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <MovieCarousel />
+    <MovieCarousel class="carousel"/>
 
     <div class="genres-section">
       <div class="genre-row" v-for="(genre, index) in genres" :key="index">
@@ -65,6 +65,7 @@ export default {
     });
 
     return {
+      movies: [],
       genres: [
         { id: 28, name: "Action 💥", movies: [] },
         { id: 878, name: "Science Fiction ⚗️", movies: [] },
@@ -79,11 +80,11 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("http://localhost:5000/api/movies");
-      const movies = response.data;
+      const response = await axios.get("http://localhost:3000/api/movies");
+      this.movies = response.data;
 
       this.genres.forEach((genre) => {
-        genre.movies = movies.filter((movie) => movie.genres.some((g) => g.id === genre.id));
+        genre.movies = this.movies.filter((movie) => movie.genres.some((g) => g.id === genre.id));
       });
 
       //console.log(this.genres);
