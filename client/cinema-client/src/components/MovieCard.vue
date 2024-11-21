@@ -3,7 +3,7 @@
     <img :src="`https://image.tmdb.org/t/p/w300/${movie.posterPath}`" :alt="movie.title" />
     <div class="movie-info">
       <h3>{{ movie.title }}</h3>
-      <p>{{ movie.synopsis.slice(0, 100) }}...</p>
+      <!--<p>{{ movie.synopsis.slice(0, 100) }}...</p>-->
       <span class="rating">⭐ {{ movie.rating.toFixed(1) }}</span>
     </div>
   </div>
@@ -30,7 +30,6 @@ export default {
   cursor: pointer;
   background-color: #333;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

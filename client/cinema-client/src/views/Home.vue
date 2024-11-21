@@ -9,7 +9,14 @@
           <button class="scroll-button prev" @click="scrollLeft(index)">&#10094;</button>
 
           <div class="movies-list" :ref="'moviesList' + index">
-            <div v-for="movie in genre.movies" class="movie-card" @click="viewMovie(movie._id)">
+            <div
+              v-for="movie in genre.movies"
+              class="movie-card"
+              @click="viewMovie(movie._id)"
+              @mouseover="hoverMovie(movie._id)"
+              @mouseleave="hoverMovie(null)"
+              :class="{ 'darken': hoveredMovie && hoveredMovie !== movie._id }"
+            >
               <img :src="`https://image.tmdb.org/t/p/w300${movie.posterPath}`" :alt="movie.title">
             </div>
           </div>
@@ -23,7 +30,7 @@
     </div>
 
     <div class="date-navigation">
-      <button class="nav-button" @click="prevDate" :disabled="isAtStart">&#10094;</button>
+      <button class="nav-button" @click="prevDate()" :disabled="isAtStart">&#10094;</button>
       <div class="dates-container">
         <span
           v-for="(date, index) in visibleDates"
@@ -35,7 +42,7 @@
           {{ date.label }}
         </span>
       </div>
-      <button class="nav-button" @click="nextDate" :disabled="isAtEnd">&#10095;</button>
+      <button class="nav-button" @click="nextDate()" :disabled="isAtEnd">&#10095;</button>
     </div>
 
   </div>
@@ -68,7 +75,7 @@ export default {
       movies: [],
       genres: [
         { id: 28, name: "Action 💥", movies: [] },
-        { id: 878, name: "Science Fiction ⚗️", movies: [] },
+        // { id: 878, name: "Science Fiction ⚗️", movies: [] },
         { id: 10749, name: "Romance 💖", movies: [] },
         { id: 27, name: "Horror 👻", movies: [] },
       ],
@@ -76,6 +83,7 @@ export default {
       allDates, // Full list of dates
       currentStartIndex: 0, // Index of the first visible date
       selectedDate: allDates[0].dateString, // Currently selected date
+      hoveredMovie: null, // Track the hovered movie
     };
   },
   async created() {
@@ -141,6 +149,9 @@ export default {
       console.log(`Selected date: ${dateString}`);
       // Optionally, filter movies based on the selected date
     },
+    hoverMovie(id) {
+      this.hoveredMovie = id;
+    },
   },
 };
 </script>
@@ -180,7 +191,7 @@ export default {
   padding: 50px;
   scrollbar-width: none; /* Hides scrollbar in Firefox */
   scroll-behavior: smooth;
-  transition: transform 2s ease-in-out; /* Smooth scrolling animation */
+  transition: transform 2s ease-in-out; /* doesn't work with buttons */
 }
 
 .movies-list::-webkit-scrollbar {
@@ -194,10 +205,18 @@ export default {
   cursor: pointer;
   border-radius: 5%;
   transition: transform 0.2s ease;
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
 }
 
 .movie-card:hover {
   transform: scale(1.05);
+  box-shadow: 0px 0px 2rem rgba(255, 150, 0, 0.7);
+}
+
+.movie-card.darken {
+  transition: opacity 0.3s ease-out;
+  opacity: 0.2;
 }
 
 .movie-card img {
@@ -229,6 +248,7 @@ export default {
 .scroll-button.next {
   right: 10px;
 }
+
 .genre-movies-container:hover .scroll-button {
   transition: opacity 0.3s ease-in;
   opacity: 1;
@@ -310,4 +330,5 @@ export default {
   color: white;
   text-decoration: underline;
 }
+
 </style>

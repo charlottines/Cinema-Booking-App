@@ -11,7 +11,12 @@
     </div>
     
     <div class="movie-grid">
-      <MovieCard class="movie-card" v-for="movie in filteredMovies" :movie="movie"/>
+      <MovieCard 
+        class="movie-card" v-for="movie in filteredMovies" 
+        :movie="movie"
+        @mouseover="hoverMovie(movie._id)"
+        @mouseleave="hoverMovie(null)"
+        :class="{ 'darken': hoveredMovie && hoveredMovie !== movie._id }"/>
     </div>
 
   </div>
@@ -28,6 +33,7 @@ export default {
       filteredMovies: [],
       allGenres: [],
       selectedGenre: '',
+      hoveredMovie: null,
     };
   },
   async created() {
@@ -57,6 +63,9 @@ export default {
       } else {
         this.filteredMovies = this.movies.filter((movie) => movie.genres.some((g) => g.name === this.selectedGenre));
       }
+    },
+    hoverMovie(movieId) {
+      this.hoveredMovie = movieId;
     },
   },
 };
@@ -96,6 +105,17 @@ export default {
 
 .movie-card {
   width: 300px;
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
+}
+
+.movie-card:hover {
+  box-shadow: 0 0 3rem rgba(255, 150, 0, 0.7);
+}
+
+.movie-card.darken {
+  transition: opacity 0.3s ease-out;
+  opacity: 0.5;
 }
 </style>
   
