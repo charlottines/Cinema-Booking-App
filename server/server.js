@@ -35,6 +35,9 @@ mongoose.connect(process.env.MONGODB_URI)
 const movieRoutes = require('./routes/movies');
 app.use('/api/movies', movieRoutes);
 
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
+
 // Health check endpoint to confirm server is running
 app.get('/', (req, res) => {
   res.send('Cinema Booking Server is running.');

@@ -5,8 +5,9 @@ import MovieList from '../views/MovieList.vue';
 import MovieDetails from '../views/MovieDetails.vue';
 import FoodOrder from '../components/FoodOrder.vue';
 import SeatSelection from '../components/SeatSelection.vue';
-import Login from '../components/Login.vue';
-import Register from '../components/Register.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
+import Profile from '../views/Profile.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -16,11 +17,27 @@ const routes = [
   { path: '/reservation/:id', name: 'SeatSelection', component: SeatSelection },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
+  {
+    path: '/profile',
+    component: Profile,
+    meta: { requiresAuth: true }, // Protect this route
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+// Add a global navigation guard
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('authToken');
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isLoggedIn) {
+    next('/login'); // Redirect to login if not authenticated
+  } else {
+    next(); // Proceed to the route
+  }
 });
 
 export default router;

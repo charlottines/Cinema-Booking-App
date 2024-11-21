@@ -34,29 +34,36 @@ export default {
       confirmPassword: '',
     };
   },
+  async created() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.$router.push('/profile');
+    }
+  },
   methods: {
     async register() {
       if (this.password !== this.confirmPassword) {
-        alert("Passwords do not match!");
+        alert('Passwords do not match!');
         return;
       }
+
       try {
-        const response = await axios.post('http://localhost:3000/api/user/register', {
+        const response = await axios.post('http://localhost:3000/api/auth/register', {
           email: this.email,
           password: this.password,
         });
-        // Handle registration success (store token, redirect, etc.)
-        console.log("Registration successful:", response.data);
-        alert("Registration successful! Please login.");
-        this.$router.push('/login');
+
+        alert('Registration successful!');
+        this.$router.push('/login'); // Redirect to login page
       } catch (error) {
-        console.error("Registration failed:", error);
-        alert("Registration failed. Please try again.");
+        console.error(error.response.data.message || 'Registration failed.');
+        alert(error.response.data.message || 'Something went wrong. Try again.');
       }
     },
   },
 };
 </script>
+
 
 <style scoped>
 .auth-form {

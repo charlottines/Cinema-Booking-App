@@ -29,20 +29,28 @@ export default {
       password: '',
     };
   },
+  async created() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.$router.push('/profile');
+    }
+  },
   methods: {
     async login() {
       try {
-        const response = await axios.post('http://localhost:3000/api/user/login', {
+        const response = await axios.post('http://localhost:3000/api/auth/login', {
           email: this.email,
           password: this.password,
         });
-        // Handle login success (store token, redirect, etc.)
-        console.log("Login successful:", response.data);
-        // Example: redirect to home or user profile
+
+        // Save token to localStorage
+        localStorage.setItem('authToken', response.data.token);
+
+        // Redirect to Profile page
         this.$router.push('/profile');
       } catch (error) {
-        console.error("Login failed:", error);
-        alert("Login failed. Please check your credentials.");
+        console.error(error.response?.data?.message || 'Login failed.');
+        alert(error.response?.data?.message || 'Invalid credentials. Try again.');
       }
     },
   },
