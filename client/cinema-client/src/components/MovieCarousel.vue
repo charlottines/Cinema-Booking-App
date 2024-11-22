@@ -55,7 +55,7 @@
       async fetchMovies() {
         try {
           const response = await axios.get("http://localhost:3000/api/movies"); // Use your backend API
-          this.movies = response.data.slice(0, 5); // Assumes API returns an array of movies
+          this.movies = response.data.slice(0, 5);
         } catch (error) {
           console.error("Error fetching movies:", error);
         }
@@ -71,8 +71,8 @@
         this.currentSlide = index;
       },
       startAutoSlide() {
-        // Change slide every 7 seconds
-        this.slideInterval = setInterval(this.nextSlide, 7000);
+        // Change slide every 5 seconds
+        this.slideInterval = setInterval(this.nextSlide, 5000);
       },
       viewMovie(id) {
         this.$router.push(`/movies/${id}`);

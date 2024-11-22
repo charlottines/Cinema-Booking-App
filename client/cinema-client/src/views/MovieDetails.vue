@@ -10,6 +10,10 @@
         <h2>{{ this.movie.title }}</h2>
         <p class="tagline">{{ this.movie.tagline }}</p>
         <p><strong>Release Date:</strong> {{ this.movie.releaseDate }}</p>
+        <p>
+          <strong>Runtime:</strong> 
+          {{ Math.floor(this.movie.runtime / 60) }}h {{ this.movie.runtime % 60 }}m
+        </p>
         <p><strong>Genres: </strong> 
           <span v-for="(genre, index) in this.movie.genres" :key="index">
             {{ genre.name }}<span v-if="index < movie.genres.length - 1">, </span>
