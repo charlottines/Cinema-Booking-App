@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const axios = require('axios');
 const fetchAndSaveMovies = require('./fetchMovies');
+const { scheduleSessions, removeExpiredSessions } = require('./sessionScheduler');
 
 // Initialize app and configure port
 const app = express();
@@ -21,8 +22,12 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log('Connected to MongoDB');
     // Only start the server once MongoDB connection is established and updated
     fetchAndSaveMovies().then(() => {
-        app.listen(PORT, () => {
+        app.listen(PORT, async () => {
             console.log(`Server is running on http://localhost:${PORT}`);
+
+            // Cleanup and schedule sessions
+            await removeExpiredSessions();
+            await scheduleSessions();
         });
     });
     })
@@ -37,6 +42,9 @@ app.use('/api/movies', movieRoutes);
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+
+const sessionRoutes = require('./routes/sessions');
+app.use('/api/sessions', sessionRoutes);
 
 // Health check endpoint to confirm server is running
 app.get('/', (req, res) => {

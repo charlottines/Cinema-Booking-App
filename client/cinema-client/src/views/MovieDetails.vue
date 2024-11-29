@@ -2,6 +2,7 @@
   <div class="movie-details">
     <div 
       class="backdrop" 
+      v-if="this.movie.backdropPath !== undefined"
       :style="{ backgroundImage: `url(https://image.tmdb.org/t/p/original${this.movie.backdropPath})` }">
     </div>
     <div class="content">
@@ -40,13 +41,18 @@
         </div>
       </div>
     </div>
+    <Sessions :movieId="movie._id" />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Sessions from '@/components/Sessions.vue';
 
 export default {
+  components: {
+    Sessions,
+  },
   props: ['id'],
   data() {
     return {
