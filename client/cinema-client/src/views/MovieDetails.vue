@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <Sessions :movieId="movie._id" />
+    <Sessions class="sessions-content" v-if="movie._id" :movieId="movie._id" />
   </div>
 </template>
 
@@ -87,11 +87,13 @@ export default {
 
 
 .backdrop {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  top: 0;
   background-size: cover;
+  background-attachment: fixed;
   filter: blur(5px) brightness(60%);
   z-index: -1;
 }
@@ -175,6 +177,10 @@ export default {
 
 .trailer-button:hover::after {
   transform: rotate(-360deg);
+}
+
+.sessions-content {
+  margin: 3rem 20%;
 }
 
 /* Modal Styles */

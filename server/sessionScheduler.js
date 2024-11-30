@@ -17,7 +17,7 @@ const scheduleSessions = async () => {
       const date = new Date();
       date.setDate(startDate.getDate() + day);
 
-      for (let room = 1; room <= 15; room++) {
+      for (let room = 1; room <= 10; room++) {
         let availableTime = new Date(date.setHours(9, 0, 0, 0)); // Start scheduling at 9 AM
         const endTime = new Date(date.setHours(23, 0, 0, 0)); // Last session ends at 11 PM
 
