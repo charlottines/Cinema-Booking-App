@@ -47,13 +47,13 @@ export default {
     getSeatImage(status) {
       switch (status) {
         case 'available':
-          return require('@/assets/seat-available.png');
+          return require('@/assets/seats/seat-available.png');
         case 'selected':
-          return require('@/assets/seat-selected.png');
+          return require('@/assets/seats/seat-selected.png');
         case 'reserved':
-          return require('@/assets/seat-reserved.png');
+          return require('@/assets/seats/seat-reserved.png');
         default:
-          return require('@/assets/seat-available.png');
+          return require('@/assets/seats/seat-available.png');
       }
     },
   },

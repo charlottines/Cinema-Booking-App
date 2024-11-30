@@ -57,7 +57,7 @@ export default {
         this.$router.push('/login'); // Redirect to login page
       } catch (error) {
         console.error(error.response.data.message || 'Registration failed.');
-        alert(error.response.data.message || 'Something went wrong. Try again.');
+        alert(error.response.data.message || 'Something went wrong. Your account may already exist. Login ot try again.');
       }
     },
   },

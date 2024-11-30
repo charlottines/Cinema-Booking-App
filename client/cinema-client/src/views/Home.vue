@@ -29,22 +29,6 @@
       <router-link to="/movies" class="all-movies-button">See More</router-link>
     </div>
 
-    <div class="date-navigation">
-      <button class="nav-button" @click="prevDate()" :disabled="isAtStart">&#10094;</button>
-      <div class="dates-container">
-        <span
-          v-for="(date, index) in visibleDates"
-          :key="index"
-          :class="{ active: selectedDate === date.dateString }"
-          class="date"
-          @click="selectDate(date.dateString)"
-        >
-          {{ date.label }}
-        </span>
-      </div>
-      <button class="nav-button" @click="nextDate()" :disabled="isAtEnd">&#10095;</button>
-    </div>
-
   </div>
 </template>
 
@@ -58,18 +42,6 @@ export default {
     MovieCarousel,
   },
   data() {
-    const today = new Date();
-    const dateOptions = { weekday: "long", day: "numeric", month: "long" };
-
-    // Generate the next 14 days including today
-    const allDates = Array.from({ length: 14 }, (_, i) => {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      return {
-        dateString: date.toISOString().split("T")[0],
-        label: i === 0 ? "Today" : date.toLocaleDateString("en-US", dateOptions),
-      };
-    });
 
     return {
       movies: [],
@@ -80,9 +52,6 @@ export default {
         { id: 27, name: "Horror 👻", movies: [] },
       ],
 
-      allDates, // Full list of dates
-      currentStartIndex: 0, // Index of the first visible date
-      selectedDate: allDates[0].dateString, // Currently selected date
       hoveredMovie: null, // Track the hovered movie
     };
   },
@@ -100,18 +69,6 @@ export default {
       console.error("Error fetching movies:", error);
     }
   },
-  computed: {
-    visibleDates() {
-      // Return only 3 days starting from the currentStartIndex
-      return this.allDates.slice(this.currentStartIndex, this.currentStartIndex + 3);
-    },
-    isAtStart() {
-      return this.currentStartIndex === 0;
-    },
-    isAtEnd() {
-      return this.currentStartIndex + 3 >= this.allDates.length;
-    },
-  },
   methods: {
     viewMovie(id) {
       this.$router.push(`/movies/${id}`);
@@ -120,8 +77,8 @@ export default {
       const list = this.$refs[`moviesList${index}`][0]; 
       if (list) {
         list.scrollBy({
-          left: -300, // Adjust the scroll distance
-          behavior: "smooth", // Enable smooth scrolling
+          left: -300,
+          behavior: "smooth", // smooth scrolling doesn't seem to work
         });
       }
     },
@@ -129,25 +86,10 @@ export default {
       const list = this.$refs[`moviesList${index}`][0];
       if (list) {
         list.scrollBy({
-          left: 300, // Adjust the scroll distance
-          behavior: "smooth", // Enable smooth scrolling
+          left: 300,
+          behavior: "smooth", 
         });
       }
-    },
-    prevDate() {
-      if (!this.isAtStart) {
-        this.currentStartIndex--;
-      }
-    },
-    nextDate() {
-      if (!this.isAtEnd) {
-        this.currentStartIndex++;
-      }
-    },
-    selectDate(dateString) {
-      this.selectedDate = dateString;
-      console.log(`Selected date: ${dateString}`);
-      // Optionally, filter movies based on the selected date
     },
     hoverMovie(id) {
       this.hoveredMovie = id;
