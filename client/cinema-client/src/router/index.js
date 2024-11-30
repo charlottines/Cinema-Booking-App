@@ -16,14 +16,10 @@ const routes = [
   { path: '/movies/:id', name: 'MovieDetails', component: MovieDetails, props: true },
   { path: '/order-food', name: 'FoodOrder', component: FoodOrder },
   { path: '/prices', name: 'Prices', component: Prices },
-  { path: '/reservation/:id', name: 'SeatSelection', component: SeatSelection },
+  { path: "/seat-selection/:sessionId", name: "SeatSelection", component: SeatSelection, props: true,},
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
-  {
-    path: '/profile',
-    component: Profile,
-    meta: { requiresAuth: true }, // Protect this route
-  },
+  { path: '/profile', component: Profile, meta: { requiresAuth: true }}, // Protect this route
 ];
 
 const router = createRouter({

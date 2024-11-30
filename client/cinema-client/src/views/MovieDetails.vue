@@ -24,7 +24,7 @@
             <span class="rating" v-if="this.movie.rating !== undefined">⭐ {{ this.movie.rating.toFixed(1) }}</span>
         </p>
         <p>{{ this.movie.synopsis }}</p>
-        <button @click="reserve()" class="reserve-button">Reserve Tickets</button>
+
         <button @click="showTrailer()" class="trailer-button">Watch Trailer</button>
       </div>
     </div>
@@ -69,9 +69,7 @@ export default {
     }
   },
   methods: {
-    reserve() {
-      this.$router.push(`/reservation/${this.movie._id}`);
-    },
+    
     showTrailer() {
       this.showModal = true;
       /*console.log(`https://www.youtube.com/embed/${this.movie.trailerKey}`);*/

@@ -60,6 +60,61 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Reserve seats for a session
+router.post('/:sessionId/reserve', async (req, res) => {
+  const { sessionId } = req.params;
+  const { seats } = req.body; // Example: { seats: ['A1', 'B2'] }
+
+  if (!seats || !Array.isArray(seats)) {
+    return res.status(400).json({ error: 'Seats must be an array.' });
+  }
+
+  try {
+    // Find the session by ID
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found.' });
+    }
+
+    // Check if any requested seats are already taken
+    const alreadyTaken = seats.filter(seat => session.takenSeats.includes(seat));
+    if (alreadyTaken.length > 0) {
+      return res.status(400).json({
+        error: 'Some seats are already reserved.',
+        alreadyTaken,
+      });
+    }
+
+    // Add the requested seats to the takenSeats array
+    session.takenSeats.push(...seats);
+
+    // Save the updated session
+    await session.save();
+
+    res.status(200).json({
+      message: 'Seats reserved successfully.',
+      takenSeats: session.takenSeats,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get session details by ID
+router.get('/:sessionId', async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.sessionId).populate('movie');
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found.' });
+    }
+
+    res.json(session);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 // Delete expired sessions
 router.delete('/expired', async (req, res) => {
   try {

@@ -8,7 +8,7 @@
     </div>
 
     <div class="sessions-list" v-if="sessions.length > 0">
-      <div class="session-box" v-for="session in sortedSessions" :key="session._id">
+      <div class="session-box" v-for="session in sortedSessions" :key="session._id" @click="goToSeatSelection(session._id)">
         <p class="time">{{ formatTime(session.dateTime) }}</p>
         <p class="room">Room: {{ session.room }}</p>
         <p class="seats">{{ availableSeats(session.takenSeats.length) }}</p>
@@ -31,8 +31,8 @@ export default {
   },
   data() {
     return {
-      currentDayOffset: 0, // Days from today
-      sessions: [], // Fetched sessions for the selected day
+      currentDayOffset: 0,
+      sessions: [],
     };
   },
   computed: {
@@ -95,6 +95,12 @@ export default {
       if (!this.isFirstDay) {
         this.currentDayOffset -= 1;
       }
+    },
+    goToSeatSelection(sessionId) {
+      this.$router.push({
+        name: "SeatSelection",
+        params: { sessionId },
+      });
     },
   },
   watch: {
