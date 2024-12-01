@@ -146,13 +146,14 @@
 }
 
 .book-now {
-  background-color: #f39c12;
+  background-color: #f50;
   color: white;
   border: none;
   padding: 10px 20px;
   font-size: 1.2rem;
   cursor: pointer;
   border-radius: 5px;
+  text-shadow: 1px 1px 2px black;
 }
 
 .carousel-button {

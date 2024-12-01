@@ -57,9 +57,9 @@
 
     <div class="reservation-info">
       <p class="info">
-        Selected seats: <strong>{{ selectedSeats.map(s => s.id).join(", ") || "None" }}</strong>
+        Selected seats:  <strong>{{ selectedSeats.map(s => s.id).join(", ") || "None" }}</strong>
       </p>
-      <button class="reserve-button" @click="reserveSeats" :disabled="selectedSeats.length === 0">
+      <button class="reserve-button" @click="saveOrderToLocalStorage()" :disabled="selectedSeats.length === 0">
         Reserve Seats
       </button>
     </div>
@@ -73,6 +73,7 @@ export default {
   props: ['sessionId'],
   data() {
     return {
+      session: {},
       seats: [],
       selectedSeats: [],
       movieTitle: "",
@@ -88,14 +89,22 @@ export default {
     async fetchSessionDetails() {
       try {
         const response = await axios.get(`http://localhost:3000/api/sessions/${this.sessionId}`);
+        this.session = response.data;
         const { takenSeats, movie, room } = response.data;
 
         this.movieTitle = movie.title || "Unknown Movie";
         this.movieTagline = movie.tagline || "Enjoy your movie!";
         this.takenSeats = takenSeats || [];
 
+        // Update if the user has already selected seats in the current session
+        const localOrders = JSON.parse(localStorage.getItem("Order")) || [];
+        const currentSessionOrder = localOrders.filter(order => order.id === this.sessionId);
+        const localTakenSeats = currentSessionOrder.length > 0 ? currentSessionOrder[0].selectedSeats : [];
+        this.takenSeats = [...new Set([...this.takenSeats, ...localTakenSeats])];
+        
+        
         // Fetch room layout dynamically (you could also include it in the session response)
-        const roomLayout = await this.getRoomLayout(room); // e.g., { rows: 10, cols: 20 }
+        const roomLayout = await this.getRoomLayout(room);
         this.initializeSeats(roomLayout.rows, roomLayout.cols);
       } catch (err) {
         console.error("Failed to fetch session details:", err);
@@ -110,23 +119,39 @@ export default {
       return roomLayouts[room] || { rows: 10, cols: 20 }; // Default layout
     },
 
-    async reserveSeats() {
-      try {
-        const selectedSeatIds = this.selectedSeats.map(s => s.id);
-        const response = await axios.post(`http://localhost:3000/api/sessions/${this.sessionId}/reserve`, {
-          seats: selectedSeatIds,
+    saveOrderToLocalStorage() {
+      // Get the current order from local storage or initialize it
+      const orders = JSON.parse(localStorage.getItem("Order")) || [];
+      
+      // Check if the user has already saved an order for the current session
+      if (orders.find(order => order.id === this.sessionId)) {
+        // Update the existing order with the new selected seats
+        orders.forEach(order => {
+          if (order.id === this.sessionId) {
+            order.selectedSeats = [...new Set([...order.selectedSeats, ...this.selectedSeats.map(seat => seat.id)])];
+          }
         });
+      } else {
+        // Create a new order object
+        const newOrder = {
+          id: this.sessionId,
+          movieTitle: this.movieTitle,
+          selectedSeats: this.selectedSeats.map(seat => seat.id),
+          dateTimeSession: this.session.dateTime,
+        };
 
-        alert(response.data.message || "Seats reserved successfully!");
-        
-        // Update seat statuses after successful reservation
-        this.takenSeats.push(...selectedSeatIds);
-        this.selectedSeats.forEach(seat => (seat.status = "reserved"));
-        this.selectedSeats = [];
-      } catch (err) {
-        console.error("Failed to reserve seats:", err.response?.data || err);
-        alert(err.response?.data?.error || "Failed to reserve seats. Try again.");
+        // Add the new order to the array
+        orders.push(newOrder);
       }
+
+      // Save the updated array back to local storage
+      localStorage.setItem("Order", JSON.stringify(orders));
+
+      // Reset selected seats locally after saving
+      this.selectedSeats.forEach(seat => (seat.status = "reserved"));
+      this.selectedSeats = [];
+
+      alert("Your order has been saved !");
     },
 
     initializeSeats(rows, cols) {
@@ -151,7 +176,7 @@ export default {
         this.selectedSeats = this.selectedSeats.filter(s => s.id !== seat.id);
       }
     },
-    
+
     getSeatImage(status) {
       switch (status) {
         case "available":
@@ -164,6 +189,26 @@ export default {
           return require("@/assets/seats/seat-available.png");
       }
     },
+
+    /*
+    async reserveSeats() {
+      try {
+        const selectedSeatIds = this.selectedSeats.map(s => s.id);
+        const response = await axios.post(`http://localhost:3000/api/sessions/${this.sessionId}/reserve`, {
+          seats: selectedSeatIds,
+        });
+
+        alert(response.data.message || "Seats reserved successfully!");
+        
+        // Update seat statuses after successful reservation
+        this.takenSeats.push(...selectedSeatIds);
+        this.selectedSeats.forEach(seat => (seat.status = "reserved"));
+        this.selectedSeats = [];
+      } catch (err) {
+        console.error("Failed to reserve seats:", err.response?.data || err);
+        alert(err.response?.data?.error || "Failed to reserve seats. Try again.");
+      }
+    },*/
   },
 };
 </script>

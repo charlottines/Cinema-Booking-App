@@ -45,6 +45,8 @@ export default {
 
         // Save token to localStorage
         localStorage.setItem('authToken', response.data.token);
+        // Save token to cookies
+        //document.cookie = `authToken=${response.data.token}; path=/;`;
 
         // Redirect to Profile page
         this.$router.push('/profile');

@@ -82,6 +82,9 @@ export default {
           },
         });
         this.sessions = response.data;
+
+        // Keep only sessions that are not passed yet
+        this.sessions = this.sessions.filter(session => new Date(session.dateTime) > new Date());
       } catch (err) {
         console.error("Failed to fetch sessions:", err);
       }

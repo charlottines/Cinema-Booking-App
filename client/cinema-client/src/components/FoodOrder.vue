@@ -17,7 +17,7 @@
       <ul>
         <li v-for="(item, index) in groupedOrder" :key="index">
           <span>{{ item.quantity }}x {{ item.name }}</span>
-          <span>- ${{ (item.price * item.quantity).toFixed(2) }}</span>
+          <span>- ${{ (item.price * item.quantity).toFixed(2) }} <button @click="removeFromOrder(item)" class="remove-button">-</button></span>
         </li>
       </ul>
       <p class="total-price">Total: ${{ totalPrice }}</p>
@@ -32,7 +32,7 @@ export default {
     return {
       foodItems: [
         { id: 1, name: 'Popcorn', description: 'Large buttery popcorn', price: 5.00, image: require('@/assets/food/popcorn.webp') },
-        { id: 2, name: 'Churros', description: '12 Churros Pack with chocolate dip', price: 6.00, image: require('@/assets/food/churros.webp')},
+        { id: 2, name: 'Churros', description: '12 Churros Pack with chocolate dip', price: 6.00, image: require('@/assets/food/churros.webp') },
         { id: 3, name: 'Candy', description: 'Assorted candy', price: 1.50, image: require('@/assets/food/candies.webp') },
         { id: 4, name: 'Nachos', description: 'Crispy nachos with cheese', price: 4.50, image: require('@/assets/food/nachos.webp') },
         { id: 5, name: 'Soft Drink', description: 'Refreshing soda (500ml)', price: 3.00, image: require('@/assets/food/softdrink.webp') },
@@ -59,18 +59,56 @@ export default {
       return Object.values(group);
     },
   },
+  created() {
+    // Load existing food order from local storage
+    const savedOrder = JSON.parse(localStorage.getItem('Order')) || [];
+    const foodOrder = savedOrder.find(order => order.id === 'food');
+    if (foodOrder) {
+      this.order = foodOrder.items;
+    }
+  },
   methods: {
     addToOrder(item) {
       this.order.push(item);
     },
+    removeFromOrder(item) {
+      // Find the first occurrence of the item and remove it
+      const index = this.order.findIndex(orderItem => orderItem.id === item.id);
+      if (index !== -1) {
+        this.order.splice(index, 1);
+      }
+    },
     checkout() {
-      alert(`Thank you for your order! Total: $${this.totalPrice}`);
-      this.order = [];
-      this.$router.push('/'); // Redirect to home or confirmation page
+      // Get the existing orders from local storage
+      const existingOrders = JSON.parse(localStorage.getItem('Order')) || [];
+      // Check if there's already a food order
+      const foodOrderIndex = existingOrders.findIndex(order => order.id === 'food');
+      
+      const newFoodOrder = {
+        id: 'food',
+        items: this.order,
+        total: this.totalPrice,
+        //dateTime: new Date().toISOString(),
+      };
+
+      if (foodOrderIndex >= 0) {
+        // Update the existing food order
+        existingOrders[foodOrderIndex] = newFoodOrder;
+      } else {
+        // Add the new food order
+        existingOrders.push(newFoodOrder);
+      }
+
+      // Save updated orders back to local storage
+      localStorage.setItem('Order', JSON.stringify(existingOrders));
+
+      alert(`Your food order has been saved locally! Total: $${this.totalPrice}`);
+      this.$router.push('/');
     },
   },
 };
 </script>
+
 
 <style scoped>
 
@@ -185,6 +223,24 @@ export default {
   font-size: 1.2rem;
   color: #fff;
   font-weight: bold;
+}
+
+.remove-button {
+  background-color: #f50;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #e60000;
 }
 
 .checkout-button {

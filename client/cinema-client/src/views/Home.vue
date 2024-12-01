@@ -216,6 +216,7 @@ export default {
   text-decoration: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  text-shadow: 1px 1px 2px black;
 }
 
 .all-movies-button:hover {

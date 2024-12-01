@@ -13,13 +13,19 @@
     </header>
     <main>
       <router-view />
+      <BubbleMenu />
     </main>
   </div>
 </template>
 
 <script>
+import BubbleMenu from './components/BubbleMenu.vue';
+
 export default {
   name: 'App',
+  components: {
+    BubbleMenu,
+  },
 };
 </script>
 
