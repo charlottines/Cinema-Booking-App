@@ -79,13 +79,23 @@ export default {
       movieTitle: "",
       movieTagline: "",
       takenSeats: [],
+      posterPath: "",
     };
   },
   async created() {
     await this.fetchSessionDetails();
+    await this.fetchMoviePoster();
   },
   
   methods: {
+    async fetchMoviePoster() {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/movies/${this.session.movie}`);
+        this.posterPath = response.data.posterPath;
+      } catch (err) {
+        console.error("Failed to fetch movies:", err);
+      }
+    },
     async fetchSessionDetails() {
       try {
         const response = await axios.get(`http://localhost:3000/api/sessions/${this.sessionId}`);
@@ -138,6 +148,7 @@ export default {
           movieTitle: this.movieTitle,
           selectedSeats: this.selectedSeats.map(seat => seat.id),
           dateTimeSession: this.session.dateTime,
+          posterPath: this.session.movie.posterPath,
         };
 
         // Add the new order to the array

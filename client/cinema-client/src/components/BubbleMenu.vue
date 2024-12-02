@@ -25,12 +25,19 @@
                   </ul>
                 </template>
                 <template v-else>
-                  <strong> {{ order.movieTitle }} </strong>
-                  <p>
-                    <strong>Date :</strong> {{ formatDate(order.dateTimeSession) }} <br />
-                    <strong>Time :</strong> {{ formatTime(order.dateTimeSession) }} <br />
-                    <strong>Seats :</strong> {{ order.selectedSeats.length }}
-                  </p>
+                  <div class="movie-order">
+                    <div class="movie-poster">
+                      <img :src="`https://image.tmdb.org/t/p/w200${order.posterPath}`" :alt="order.movieTitle">
+                    </div>
+                    <div class="session-details">
+                        <strong> {{ order.movieTitle }} </strong>
+                        <p>
+                          <strong>Date :</strong> {{ formatDate(order.dateTimeSession) }} <br />
+                          <strong>Time :</strong> {{ formatTime(order.dateTimeSession) }} <br />
+                          <strong>Seats :</strong> {{ order.selectedSeats.length }}
+                        </p>
+                    </div>
+                  </div>
                 </template>
               </li>
             </ul>
@@ -70,18 +77,18 @@
     },
     methods: {
         toggleMenu() {
-            this.menuVisible = !this.menuVisible;
-    
-            if (this.menuVisible) {
-                this.loadUser();
-                this.loadOrders();
-            }
+          this.menuVisible = !this.menuVisible;
+  
+          if (this.menuVisible) {
+            this.loadUser();
+            this.loadOrders();
+          }
         },
         loadOrders() {
-            // Fetch orders from local storage, default to an empty array if no orders exist
-            this.orders = JSON.parse(localStorage.getItem("Order")) || [];
-            // Sort orders so that food orders are at the end
-            this.orders.sort((a, b) => (a.id === 'food' ? 1 : -1));
+          // Fetch orders from local storage, default to an empty array if no orders exist
+          this.orders = JSON.parse(localStorage.getItem("Order")) || [];
+          // Sort orders so that food orders are at the end
+          this.orders.sort((a, b) => (a.id === 'food' ? 1 : -1));
         },
         async loadUser() {
             if (this.isLoggedIn()) {
@@ -259,7 +266,17 @@
     list-style: none;
     padding-left: 1rem;
     margin: 0;
-    }
+}
+
+.movie-order {
+    display: flex;
+    align-items: center;
+}
+
+.movie-poster img {
+    width: 70px;
+    margin-right: 1rem;
+}
 
 .checkout-section {
     margin-top: 2rem;

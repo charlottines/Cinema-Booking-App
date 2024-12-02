@@ -201,13 +201,14 @@
 .dots span {
   width: 12px;
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 250, 130, 0.5);
   border-radius: 50%;
   cursor: pointer;
+  border: 1px solid #000;
 }
 
 .dots span.active {
-  background-color: white;
+  background-color: #fb2;
 }
 </style>
   
