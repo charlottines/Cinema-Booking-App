@@ -194,13 +194,13 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 0.7rem;
   z-index: 2;
 }
 
 .dots span {
-  width: 12px;
-  height: 12px;
+  width: 0.8rem;
+  height: 0.8rem;
   background-color: rgba(255, 250, 130, 0.5);
   border-radius: 50%;
   cursor: pointer;

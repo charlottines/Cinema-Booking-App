@@ -200,7 +200,7 @@
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 300px;
+    width: 18rem;
     max-height: 70vh;
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
@@ -266,6 +266,11 @@
     list-style: none;
     padding-left: 1rem;
     margin: 0;
+}
+
+.food-items li {
+    display: flex;
+    justify-content: space-between;
 }
 
 .movie-order {

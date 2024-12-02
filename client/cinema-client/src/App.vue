@@ -3,10 +3,12 @@
   <div id="app">
     <header>
       <div class="logo">
-        <router-link to="/">CineMaBaguette</router-link>
+        <router-link to="/">CineMaBaguette
+          <img src="@/assets/logo.png" alt="CineMaBaguette Logo" class="header-logo" />
+        </router-link>
       </div>
       <nav>
-        <router-link to="/order-food">MIAM</router-link>
+        <router-link to="/order-food">Snacks</router-link>
         <router-link to="/prices">Our Offers</router-link>
         <router-link to="/profile"><img src="@/assets/account-icon.png" alt="Login"></router-link>
       </nav>
@@ -36,6 +38,10 @@ export default {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 125%;
+}
+
 body {
   height: 100%;
   width: 100%;
@@ -48,7 +54,6 @@ body {
   background-size: cover;
   background-attachment: scroll;
   color: #ccc;
-  font-size: large;
 }
 
 #app {
@@ -93,5 +98,11 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+}
+
+.header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
