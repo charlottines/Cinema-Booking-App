@@ -146,14 +146,21 @@
 }
 
 .book-now {
-  background-color: #f50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1.2rem;
+  background-color: transparent; /* No background */
+  color: orange; /* Text in orange */
+  border: 2px solid orange; /* Orange border */
+  padding: 5px 10px; /* Smaller padding */
+  font-size: 0.9rem; /* Smaller font size */
+  text-shadow: none; /* Remove text shadow */
+  border-radius: 3px; /* Slightly rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
-  border-radius: 5px;
-  text-shadow: 1px 1px 2px black;
+}
+
+.book-now:hover {
+  background-color: orange; /* Orange background on hover */
+  color: white; /* White text on hover */
+  border-color: orange; /* Match border to background */
 }
 
 .carousel-button {
