@@ -149,10 +149,10 @@
   background-color: transparent; /* No background */
   color: orange; /* Text in orange */
   border: 2px solid orange; /* Orange border */
-  padding: 5px 10px; /* Smaller padding */
-  font-size: 0.9rem; /* Smaller font size */
+  padding: 10px 30px; /* Larger padding for a bigger button */
+  font-size: 1.2rem; /* Larger font size */
   text-shadow: none; /* Remove text shadow */
-  border-radius: 3px; /* Slightly rounded corners */
+  border-radius: 5px; /* Slightly more rounded corners */
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
 }
