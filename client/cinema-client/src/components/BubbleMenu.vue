@@ -75,6 +75,14 @@ export default {
       menuVisible: false, // Local state to toggle menu visibility
     };
   },
+  async created() {
+    const orders = localStorage.getItem("Order") || [];
+    if (orders.length > 0) {
+      orders.forEach((order) => {
+        this.$store.commit("addOrder", order);
+      });
+    }
+  },
   computed: {
     ...mapState(["orders", "user"]), // Map orders and user state
     ...mapGetters(["orderCount", "isLoggedIn"]), // Map getters

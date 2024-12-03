@@ -21,7 +21,7 @@
         </li>
       </ul>
       <p class="total-price">Total: ${{ totalPrice }}</p>
-      <button class="checkout-button" @click="checkout" :disabled="order.length === 0">Checkout</button>
+      <button class="checkout-button" @click="checkout()" :disabled="order.length === 0">Save Order</button>
     </div>
   </div>
 </template>
@@ -102,7 +102,11 @@ export default {
       // Save updated orders back to local storage
       localStorage.setItem('Order', JSON.stringify(existingOrders));
 
-      alert(`Your food order has been saved locally! Total: $${this.totalPrice}`);
+      //Update the Vuex store
+      this.$store.commit("deleteOrder", newFoodOrder.id);
+      this.$store.commit('addOrder', newFoodOrder);
+
+      alert(`Your food order has been saved ! Total: $${this.totalPrice}`);
       this.$router.push('/');
     },
   },

@@ -11,6 +11,9 @@ const store = createStore({
     addOrder(state, order) {
       state.orders.push(order);
     },
+    deleteOrder(state, orderId) {
+      state.orders = state.orders.filter(order => order.id !== orderId);
+    },
     clearOrders(state) {
       state.orders = [];
     },

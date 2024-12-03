@@ -79,23 +79,13 @@ export default {
       movieTitle: "",
       movieTagline: "",
       takenSeats: [],
-      posterPath: "",
     };
   },
   async created() {
     await this.fetchSessionDetails();
-    await this.fetchMoviePoster();
   },
   
   methods: {
-    async fetchMoviePoster() {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/movies/${this.session.movie}`);
-        this.posterPath = response.data.posterPath;
-      } catch (err) {
-        console.error("Failed to fetch movies:", err);
-      }
-    },
     async fetchSessionDetails() {
       try {
         const response = await axios.get(`http://localhost:3000/api/sessions/${this.sessionId}`);
@@ -114,14 +104,14 @@ export default {
         
         
         // Fetch room layout dynamically (you could also include it in the session response)
-        const roomLayout = await this.getRoomLayout(room);
+        const roomLayout = this.getRoomLayout(room);
         this.initializeSeats(roomLayout.rows, roomLayout.cols);
       } catch (err) {
         console.error("Failed to fetch session details:", err);
       }
     },
 
-    async getRoomLayout(room) {
+    getRoomLayout(room) {
       // Mock API or static data for room layouts
       const roomLayouts = {
         1: { rows: 10, cols: 20 },
@@ -153,6 +143,7 @@ export default {
 
         // Add the new order to the array
         orders.push(newOrder);
+        this.$store.commit("addOrder", newOrder);
       }
 
       // Save the updated array back to local storage
